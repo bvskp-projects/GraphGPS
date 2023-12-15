@@ -11,6 +11,7 @@ from torch_geometric.graphgym.utils.epoch import is_eval_epoch, is_ckpt_epoch
 
 from graphgps.loss.subtoken_prediction_loss import subtoken_cross_entropy
 from graphgps.utils import cfg_to_dict, flatten_dict, make_wandb_name
+import pickle
 
 
 def train_epoch(logger, loader, model, optimizer, scheduler, batch_accumulation):
@@ -67,6 +68,8 @@ def eval_epoch(logger, loader, model, split='val'):
             loss, pred_score = compute_loss(pred, true)
             _true = true.detach().to('cpu', non_blocking=True)
             _pred = pred_score.detach().to('cpu', non_blocking=True)
+        with open('RWSE-Cora.pkl', 'wb') as f:
+            pickle.dump(_pred, f)
         logger.update_stats(true=_true,
                             pred=_pred,
                             loss=loss.detach().cpu().item(),
