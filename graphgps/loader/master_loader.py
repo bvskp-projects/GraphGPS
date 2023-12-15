@@ -17,6 +17,7 @@ from torch_geometric.graphgym.register import register_loader
 from graphgps.loader.dataset.aqsol_molecules import AQSOL
 from graphgps.loader.dataset.coco_superpixels import COCOSuperpixels
 from graphgps.loader.dataset.malnet_tiny import MalNetTiny
+from graphgps.loader.dataset.mirror import Mirror
 from graphgps.loader.dataset.voc_superpixels import VOCSuperpixels
 from graphgps.loader.split_generator import (prepare_splits,
                                              set_dataset_splits)
@@ -177,6 +178,9 @@ def load_dataset_master(format, name, dataset_dir):
 
         else:
             raise ValueError(f"Unsupported OGB(-derived) dataset: {name}")
+    elif format == 'cs762':
+        assert name == 'Mirror', f"Unsupported cs762 dataset: {name}"
+        dataset = Mirror(dataset_dir)
     else:
         raise ValueError(f"Unknown data format: {format}")
 
