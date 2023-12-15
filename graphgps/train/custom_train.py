@@ -69,7 +69,7 @@ def eval_epoch(logger, loader, model, split='val'):
             _true = true.detach().to('cpu', non_blocking=True)
             _pred = pred_score.detach().to('cpu', non_blocking=True)
         with open('RWSE-Cora.pkl', 'wb') as f:
-            pickle.dump(_pred, f)
+            pickle.dump({'pred':_pred, 'true':_true}, f)
         logger.update_stats(true=_true,
                             pred=_pred,
                             loss=loss.detach().cpu().item(),
