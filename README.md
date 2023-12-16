@@ -25,7 +25,7 @@ pip install wandb
 conda clean --all
 ```
 
-## Reporducing results
+## Reproducing results
 
 We first need to train all the required models before we perform any inference on them.
 
