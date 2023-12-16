@@ -39,11 +39,14 @@ print(f'Total Training Samples : {sum(train_mask)}')
 test_mask[:] = False
 test_mask[(2708*9)//10:] = True
 
-print(f'Total Training Samples : {sum(test_mask)}')
+print(f'Total Testing Samples : {sum(test_mask)}')
 
 steps = 200
 
-model = GATv2(num_features=g.ndata['feat'].shape[1], num_classes=dataset.num_classes, num_heads=1, layers=1)
+'''
+Note that the number of layers passed as param should be 1 less than the total number of layers in the model as the output layer is not considered by the param and is constant.
+'''
+model = GATv2(num_features=g.ndata['feat'].shape[1], num_classes=dataset.num_classes, num_heads=1, layers=1) 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.01)
 scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, steps, eta_min=1e-5)

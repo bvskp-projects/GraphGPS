@@ -34,3 +34,8 @@ Run the script to generate testing results.
 ```bash
 python3 gatv2_cora.py
 ```
+
+Current script uses first 50% of data for training and last 10% for testing with a 2 layer model.
+Changes for training data is on line 35.
+Changes for testing data is on line 40.
+Changes for number of layers is on line 46. Note that the number of layers passed as param should be 1 less than the total number of layers in the model as the output layer is not considered by the param and is constant.
