@@ -6,6 +6,7 @@ from torch_geometric.graphgym.register import register_node_encoder
 from graphgps.encoder.ast_encoder import ASTNodeEncoder
 from graphgps.encoder.kernel_pos_encoder import RWSENodeEncoder, \
     HKdiagSENodeEncoder, ElstaticSENodeEncoder
+from graphgps.encoder.generic_node_encoder import GenericNodeEncoder
 from graphgps.encoder.laplace_pos_encoder import LapPENodeEncoder
 from graphgps.encoder.ppa_encoder import PPANodeEncoder
 from graphgps.encoder.signnet_pos_encoder import SignNetNodeEncoder
@@ -56,6 +57,10 @@ def concat_node_encoders(encoder_classes, pe_enc_names):
             batch = self.encoder1(batch)
             batch = self.encoder2(batch)
             return batch
+
+        def record_loss(self, loss):
+            if hasattr(self.encoder2, "record_loss"):
+                self.encoder2.record_loss(loss)
 
     class Concat3NodeEncoder(torch.nn.Module):
         """Encoder that concatenates three node encoders.
@@ -110,6 +115,7 @@ ds_encs = {'Atom': AtomEncoder,
 # Positional Encoding node encoders.
 pe_encs = {'LapPE': LapPENodeEncoder,
            'RWSE': RWSENodeEncoder,
+           'GNE': GenericNodeEncoder,
            'HKdiagSE': HKdiagSENodeEncoder,
            'ElstaticSE': ElstaticSENodeEncoder,
            'SignNet': SignNetNodeEncoder,
