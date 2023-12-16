@@ -39,6 +39,56 @@ We first need to train all the required models before we perform any inference o
     ```bash
     python main.py --cfg custom_configs/cora-GPS+RWSE.yaml wandb.use False
     ```
+  - RWSE without Message Passing Neural Network
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS-NoGNN+RWSE.yaml wandb.use False
+    ```
+  - Depth Scaling (uses LapPE): set the name_tag according to your convinience and gt.layers is used to alter the number of layers.
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS+RWSE.yaml wandb.use False name_tag layers1 gt.layers 1
+    ```
+  - Dataset Scaling (uses LapPE): Use the corresponding config file `cora-GPS-data40.yaml, cora-GPS-data50.yaml, cora-GPS-data60.yaml, cora-GPS-data70.yaml,`. Original training uses 80% of the data.
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS-data40.yaml wandb.use False
+    ```
+- For Inference
+  - LapPE
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS-inference.yaml wandb.use False
+    ```
+  - RWSE
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS+RWSE-inference.yaml wandb.use False
+    ```
+  - Depthscaling and Dataset Scaling: example shown for model with 1 transformer layer
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS-inference.yaml wandb.use False pretrained.dir results/cora-GPS-layers1
+    ```
+
+### Cifar10 and Zinc dataset
+- For Training
+  - LapPE
+    ```bash
+    python main.py --cfg custom_configs/cifar10-GPS.yaml wandb.use False
+    ```
+    ```bash
+    python main.py --cfg custom_configs/zinc-GPS.yaml wandb.use False
+    ```
+  - RWSE
+    ```bash
+    python main.py --cfg custom_configs/cifar10-GPS+RWSE.yaml wandb.use False
+    ```
+    ```bash
+    python main.py --cfg custom_configs/zinc-GPS+RWSE.yaml wandb.use False
+    ```
+- For Inference
+  - RWSE
+    ```bash
+    python main.py --cfg custom_configs/cifar10-GPS+RWSE-inference.yaml wandb.use False
+    ```
+    ```bash
+    python main.py --cfg custom_configs/zinc-GPS+RWSE-inference.yaml wandb.use False
+    ```
 
 --------
 
