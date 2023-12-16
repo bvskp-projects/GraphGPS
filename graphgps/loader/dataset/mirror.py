@@ -30,11 +30,11 @@ class Mirror(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return ['r2.pkl']
+        return ['r3.pkl']
 
     @property
     def processed_file_names(self):
-        return ['p2.pt']
+        return ['p3.pt']
 
     def process(self):
         with open(osp.join(self.raw_dir, "mirror.pkl"), "rb") as f:

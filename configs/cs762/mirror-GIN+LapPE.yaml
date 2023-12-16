@@ -1,7 +1,7 @@
 out_dir: results
 metric_best: accuracy
 wandb:
-  use: True
+  use: False
   project: Mirror
 dataset:
   format: cs762
@@ -24,10 +24,10 @@ posenc_LapPE:
   eigen:
     laplacian_norm: none
     eigvec_norm: L2
-    max_freqs: 8
-  model: DeepSet
-  dim_pe: 8
-  layers: 2
+    max_freqs: 4
+  model: Transformer
+  dim_pe: 4
+  layers: 1
   raw_norm_type: none
 train:
   mode: custom
