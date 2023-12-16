@@ -3,7 +3,7 @@
 
 In this project we extend the work of GraphGPS to test its efficacy on different datasets with various requirements, comparing thier performance and reporting on different metrics.
 
-### Setup Python environment with Conda
+## Setup Python environment with Conda
 
 ```bash
 conda create -n graphgps python=3.10
@@ -25,7 +25,20 @@ pip install wandb
 conda clean --all
 ```
 
-Reporducing results
+## Reporducing results
+
+We first need to train all the required models before we perform any inference on them.
+
+### Cora Dataset
+- For Training
+  - LapPE
+```bash
+python main.py --cfg custom_configs/cora-GPS.yaml wandb.use False
+```
+  - RWSE
+```bash
+python main.py --cfg custom_configs/cora-GPS+RWSE.yaml wandb.use False
+```
 
 --------
 
