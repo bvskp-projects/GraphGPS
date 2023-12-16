@@ -32,13 +32,13 @@ We first need to train all the required models before we perform any inference o
 ### Cora Dataset
 - For Training
   - LapPE
-```bash
-python main.py --cfg custom_configs/cora-GPS.yaml wandb.use False
-```
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS.yaml wandb.use False
+    ```
   - RWSE
-```bash
-python main.py --cfg custom_configs/cora-GPS+RWSE.yaml wandb.use False
-```
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS+RWSE.yaml wandb.use False
+    ```
 
 --------
 
