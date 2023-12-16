@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
-
-from typing import Union, Tuple
-import math
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from dgl import function as fn
-from dgl.nn.functional import edge_softmax
 import torch.optim as optim
 import dgl
 from dgl.data import CoraGraphDataset
-import matplotlib.pyplot as plt
-import numpy as np
 
 class GATv2(nn.Module):
     def __init__(self, num_features, num_classes, num_heads=1, feat_drop=0.6, attn_drop=0.6, layers = 1):

@@ -11,9 +11,12 @@ This repository contains the implementation of a Graph Attention Transformer (GA
 
 The Graph Attention Transformer (GAT) is a powerful deep learning model that uses attention logic for assigning weights to edges for information propagation. It is particularly effective in tasks that involve graph-structured data, such as node classification, link prediction, and graph classification.
 
-This is a primitive implementation of GatV2 using the [DLG](https://docs.dgl.ai/en/latest/generated/dgl.nn.pytorch.conv.GATv2Conv.html) implementation of [Graph Attention Convolution v2](https://arxiv.org/pdf/2105.14491.pdf).
+This is a primitive implementation of GatV2 using the [DLG](https://docs.dgl.ai/en/latest/generated/dgl.nn.pytorch.conv.GATv2Conv.html) implementation of [Graph Attention Convolution v2](https://arxiv.org/pdf/2105.14491.pdf) on [CoraDataset](https://docs.dgl.ai/en/latest/generated/dgl.data.CoraGraphDataset.html).
 
 ## Installation
+
+Tested on
+- Python 3.10
 
 To install the necessary dependencies, run the following command:
 
