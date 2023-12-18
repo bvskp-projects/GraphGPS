@@ -1,21 +1,9 @@
-# GraphGPS: General Powerful Scalable Graph Transformers
 
-[![arXiv](https://img.shields.io/badge/arXiv-2205.12454-b31b1b.svg)](https://arxiv.org/abs/2205.12454)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/recipe-for-a-general-powerful-scalable-graph/graph-regression-on-zinc)](https://paperswithcode.com/sota/graph-regression-on-zinc?p=recipe-for-a-general-powerful-scalable-graph)
+# Exploring the Efficacy of Attention Mechanism in Graph Neural Networks
 
+In this project we extend the work of GraphGPS to test its efficacy on different datasets with various requirements, comparing thier performance and reporting on different metrics.
 
-![GraphGPS-viz](./GraphGPS.png)
-
-How to build a graph Transformer? We provide a 3-part recipe on how to build graph Transformers with linear complexity. Our GPS recipe consists of choosing 3 main ingredients:
-1. positional/structural encoding: [LapPE](https://arxiv.org/abs/2106.03893), [RWSE](https://arxiv.org/abs/2110.07875), [SignNet](https://arxiv.org/abs/2202.13013), [EquivStableLapPE](https://arxiv.org/abs/2203.00199)
-2. local message-passing mechanism: [GatedGCN](https://arxiv.org/abs/1711.07553), [GINE](https://arxiv.org/abs/1905.12265), [PNA](https://arxiv.org/abs/2004.05718)
-3. global attention mechanism: [Transformer](https://arxiv.org/abs/1706.03762), [Performer](https://arxiv.org/abs/2009.14794), [BigBird](https://arxiv.org/abs/2007.14062)
-
-In this *GraphGPS* package we provide several positional/structural encodings and model choices, implementing the GPS recipe. GraphGPS is built using [PyG](https://www.pyg.org/) and [GraphGym from PyG2](https://pytorch-geometric.readthedocs.io/en/2.0.0/notes/graphgym.html).
-Specifically *PyG v2.2* is required.
-
-
-### Python environment setup with Conda
+## Setup Python environment with Conda
 
 ```bash
 conda create -n graphgps python=3.10
@@ -36,6 +24,89 @@ pip install wandb
 
 conda clean --all
 ```
+
+## Reproducing results
+
+We first need to train all the required models before we perform any inference on them.
+
+### Cora Dataset
+- For Training
+  - LapPE
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS.yaml wandb.use False
+    ```
+  - RWSE
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS+RWSE.yaml wandb.use False
+    ```
+  - RWSE without Message Passing Neural Network
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS-NoGNN+RWSE.yaml wandb.use False
+    ```
+  - Depth Scaling (uses LapPE): set the name_tag according to your convinience and gt.layers is used to alter the number of layers.
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS+RWSE.yaml wandb.use False name_tag layers1 gt.layers 1
+    ```
+  - Dataset Scaling (uses LapPE): Use the corresponding config file `cora-GPS-data40.yaml, cora-GPS-data50.yaml, cora-GPS-data60.yaml, cora-GPS-data70.yaml,`. Original training uses 80% of the data.
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS-data40.yaml wandb.use False
+    ```
+- For Inference
+  - LapPE
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS-inference.yaml wandb.use False
+    ```
+  - RWSE
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS+RWSE-inference.yaml wandb.use False
+    ```
+  - Depthscaling and Dataset Scaling: example shown for model with 1 transformer layer
+    ```bash
+    python main.py --cfg custom_configs/cora-GPS-inference.yaml wandb.use False pretrained.dir results/cora-GPS-layers1
+    ```
+
+### Cifar10 and Zinc dataset
+- For Training
+  - LapPE
+    ```bash
+    python main.py --cfg custom_configs/cifar10-GPS.yaml wandb.use False
+    ```
+    ```bash
+    python main.py --cfg custom_configs/zinc-GPS.yaml wandb.use False
+    ```
+  - RWSE
+    ```bash
+    python main.py --cfg custom_configs/cifar10-GPS+RWSE.yaml wandb.use False
+    ```
+    ```bash
+    python main.py --cfg custom_configs/zinc-GPS+RWSE.yaml wandb.use False
+    ```
+- For Inference
+  - RWSE
+    ```bash
+    python main.py --cfg custom_configs/cifar10-GPS+RWSE-inference.yaml wandb.use False
+    ```
+    ```bash
+    python main.py --cfg custom_configs/zinc-GPS+RWSE-inference.yaml wandb.use False
+    ```
+
+--------
+
+# GraphGPS: General Powerful Scalable Graph Transformers
+
+[![arXiv](https://img.shields.io/badge/arXiv-2205.12454-b31b1b.svg)](https://arxiv.org/abs/2205.12454)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/recipe-for-a-general-powerful-scalable-graph/graph-regression-on-zinc)](https://paperswithcode.com/sota/graph-regression-on-zinc?p=recipe-for-a-general-powerful-scalable-graph)
+
+
+![GraphGPS-viz](./GraphGPS.png)
+
+How to build a graph Transformer? We provide a 3-part recipe on how to build graph Transformers with linear complexity. Our GPS recipe consists of choosing 3 main ingredients:
+1. positional/structural encoding: [LapPE](https://arxiv.org/abs/2106.03893), [RWSE](https://arxiv.org/abs/2110.07875), [SignNet](https://arxiv.org/abs/2202.13013), [EquivStableLapPE](https://arxiv.org/abs/2203.00199)
+2. local message-passing mechanism: [GatedGCN](https://arxiv.org/abs/1711.07553), [GINE](https://arxiv.org/abs/1905.12265), [PNA](https://arxiv.org/abs/2004.05718)
+3. global attention mechanism: [Transformer](https://arxiv.org/abs/1706.03762), [Performer](https://arxiv.org/abs/2009.14794), [BigBird](https://arxiv.org/abs/2007.14062)
+
+In this *GraphGPS* package we provide several positional/structural encodings and model choices, implementing the GPS recipe. GraphGPS is built using [PyG](https://www.pyg.org/) and [GraphGym from PyG2](https://pytorch-geometric.readthedocs.io/en/2.0.0/notes/graphgym.html).
+Specifically *PyG v2.2* is required.
 
 
 ### Running GraphGPS
