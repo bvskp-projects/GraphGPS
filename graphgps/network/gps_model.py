@@ -97,6 +97,19 @@ class GPSModel(torch.nn.Module):
                 bigbird_cfg=cfg.gt.bigbird,
                 log_attn_weights=cfg.train.mode == 'log-attn-weights',
             ))
+        dlayer = cfg.pretrained.disable_layer
+        dnode = cfg.pretrained.disable_node
+        if dlayer >= 0 and dnode != 'None':
+            assert dnode in ['MP', 'SA', 'FF'], f'Unsupported node {dnode}'
+            assert dlayer < len(layers), f'{layer} exceeds num layers {len(layers)}'
+            if dnode == 'MP':
+                layers[dlayer].disable_mp = True
+            elif dnode == 'SA':
+                layers[dlayer].disable_sa = True
+            else:
+                layers[dlayer].disable_ff = True
+        # for layer in layers:
+        #     layer.disable_mp = True
         self.layers = torch.nn.Sequential(*layers)
 
         GNNHead = register.head_dict[cfg.gnn.head]

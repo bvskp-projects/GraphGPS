@@ -14,6 +14,9 @@ def set_cfg_posenc(cfg):
     cfg.posenc_HKdiagSE = CN()
     cfg.posenc_ElstaticSE = CN()
     cfg.posenc_EquivStableLapPE = CN()
+    cfg.posenc_GNE = CN()
+    cfg.posenc_GNE.enable = False
+    cfg.posenc_GNE.dim_pe = 16
 
     # Common arguments to all PE types.
     for name in ['posenc_LapPE', 'posenc_SignNet',

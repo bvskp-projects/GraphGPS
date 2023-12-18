@@ -45,6 +45,9 @@ def train_epoch(logger, loader, model, optimizer, scheduler, batch_accumulation)
                             params=cfg.params,
                             dataset_name=cfg.dataset.name)
         time_start = time.time()
+        l_encoder = model.encoder.node_encoder
+        if hasattr(l_encoder, "record_loss"):
+            l_encoder.record_loss(loss.detach().cpu().item())
 
 
 @torch.no_grad()

@@ -31,6 +31,9 @@ class GPSLayer(nn.Module):
         self.batch_norm = batch_norm
         self.equivstable_pe = equivstable_pe
         self.activation = register.act_dict[act]
+        self.disable_mp = False
+        self.disable_sa = False
+        self.disable_ff = False
 
         self.log_attn_weights = log_attn_weights
         if log_attn_weights and global_model_type not in ['Transformer',
@@ -158,7 +161,7 @@ class GPSLayer(nn.Module):
 
         h_out_list = []
         # Local MPNN with edge attributes.
-        if self.local_model is not None:
+        if self.local_model is not None and not self.disable_mp:
             self.local_model: pygnn.conv.MessagePassing  # Typing hint.
             if self.local_gnn_type == 'CustomGatedGCN':
                 es_data = None
@@ -195,7 +198,7 @@ class GPSLayer(nn.Module):
             h_out_list.append(h_local)
 
         # Multi-head attention.
-        if self.self_attn is not None:
+        if self.self_attn is not None and not self.disable_sa:
             h_dense, mask = to_dense_batch(h, batch.batch)
             if self.global_model_type == 'Transformer':
                 h_attn = self._sa_block(h_dense, None, ~mask)[mask]
@@ -222,7 +225,8 @@ class GPSLayer(nn.Module):
         h = sum(h_out_list)
 
         # Feed Forward block.
-        h = h + self._ff_block(h)
+        if not self.disable_ff:
+            h = h + self._ff_block(h)
         if self.layer_norm:
             h = self.norm2(h, batch.batch)
         if self.batch_norm:

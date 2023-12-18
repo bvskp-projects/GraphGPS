@@ -18,3 +18,8 @@ def set_cfg_pretrained(cfg):
 
     # Freeze the main pretrained 'body' of the model, learning only the new head
     cfg.pretrained.freeze_main = False
+
+    # Inference use only
+    cfg.pretrained.disable_layer = -1
+    cfg.pretrained.disable_node = 'None' # ['MP', 'SA', 'FF']
+
