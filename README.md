@@ -1,7 +1,14 @@
 
 # Exploring the Efficacy of Attention Mechanism in Graph Neural Networks
 
-In this project we extend the work of GraphGPS to test its efficacy on different datasets with various requirements, comparing thier performance and reporting on different metrics.
+In this project, we conduct experiments to
+
+- Explore the importance of individual components in a Graph Transformer.
+- Discuss limitations of positional encodings.
+- Illustrate the performance of GATs on natural graphs.
+- Demonstrate our generic encoder on synthetic datasets.
+
+We use the framework developed at [GraphGPS](https://github.com/rampasek/GraphGPS) to conduct our experiments and are grateful to the authors for making their framework open source and so seamless to work with.
 
 ## Setup Python environment with Conda
 
@@ -26,6 +33,41 @@ conda clean --all
 ```
 
 ## Reproducing results
+
+### Ablation Study Experiment
+
+We introduce a new config option pretrained.disable_layer to disable kth layer from the network at inference.
+
+- Training
+  ```bash
+  python main.py --cfg configs/cs762/zinc-GPS+RWSE-ckptbest.yaml
+  ```
+- Inference
+  ```bash
+  python main.py --cfg configs/cs762/zinc-<module>.yaml pretrained.disable_layer <layer>
+  ```
+
+`<module>` is one of `[MP, SA, FF]` each corresponding to the message passing, self attention and feed forward network module.
+`<layer>` represents a 0-indexed layer to disable.
+
+### Experiments on robustness of LapPE
+
+See the code for these experiments in the cs762 folder [star_graph.ipynb](cs762/star_graph.ipynb) and [eigenstable.ipynb](cs762/eigenstable.ipynb).
+
+### Generic Encoder
+
+See our new encoder that implements our proposed algorithm at [generic_node_encoder.py](graphgps/encoder/generic_node_encoder.py).
+
+- EDGES
+  ```bash
+  python main.py --cfg configs/cs762/edges-GNE.yaml
+  ```
+- TRIANGLES
+  ```bash
+  python main.py --cfg configs/cs762/triangles-GNE.yaml
+  ```
+
+### Other Experiments
 
 We first need to train all the required models before we perform any inference on them.
 
@@ -89,6 +131,10 @@ We first need to train all the required models before we perform any inference o
     ```bash
     python main.py --cfg custom_configs/zinc-GPS+RWSE-inference.yaml wandb.use False
     ```
+
+### Mirror Dataset
+
+We provide notebook [mirror.ipynb](cs762/mirror.ipynb) to create a dataset of 10-node path graphs where the labels mirror node features. We provide the corresponding dataset loader at [mirror.py](graphgps/loader/dataset/mirror.py).
 
 --------
 
