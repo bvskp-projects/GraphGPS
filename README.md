@@ -132,7 +132,11 @@ We first need to train all the required models before we perform any inference o
     python main.py --cfg custom_configs/zinc-GPS+RWSE-inference.yaml wandb.use False
     ```
 
-### Mirror Dataset
+### GCN and GAT results
+  Experiment code for these results can be found in the `GAT` folder.
+
+
+## Mirror Dataset
 
 We provide notebook [mirror.ipynb](cs762/mirror.ipynb) to create a dataset of 10-node path graphs where the labels mirror node features. We provide the corresponding dataset loader at [mirror.py](graphgps/loader/dataset/mirror.py).
 
